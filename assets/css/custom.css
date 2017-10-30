@@ -1,0 +1,85 @@
+.bold{
+	font-weight: bold;
+}
+/****************** QRCODE****************/
+.qrcode_area {
+	width: 191px;
+	height: 152px;
+	margin:auto;
+	border:1px dotted #000000;
+	padding: 5px;
+	position: relative;
+}
+img.qrcode_img{
+	width: 58px !important;
+	height: 58px !important;
+	float: right;
+}
+.title_qrcode {
+	font-size: 17px;
+	text-align:left;	
+	font-weight: bold;
+	padding: 0px 0px 0px 0px;
+	height:58px;
+	width:120px;
+	display: table;
+	vertical-align: middle;
+}
+.title_qrcode span {
+    vertical-align:middle;
+    display: table-cell;
+}
+.title_qrcode_1 {
+	font-size: 10px;
+	text-align:center;	
+	font-weight: bold;
+	padding: 5px 5px 5px 5px;
+	position: absolute;
+	bottom:0px;
+}
+.content_qrcode p{
+	font-size: 12px;
+	padding: 0px;
+	margin: 0px 0px 2px 0px;
+}
+/***********QRcode Trung ***********************/
+.qrcode_area_trung {
+	width: 191px;
+	height: 95px;
+	margin:auto;
+	border:1px dotted #000000;
+	padding: 5px;
+	position: relative;
+}
+img.qrcode_img_trung{
+	width: 58px !important;
+	height: 58px !important;
+	float: right;
+}
+.title_qrcode_trung {
+	font-size: 13px;
+	text-align:left;	
+	font-weight: bold;
+	padding: 0px 0px 0px 0px;
+	height:25px;
+	width:120px;
+	display: table;
+	vertical-align: middle;
+}
+.title_qrcode_trung span {
+    vertical-align:middle;
+    display: table-cell;
+}
+.title_qrcode_1_trung {
+	font-size: 10px;
+	text-align:center;	
+	font-weight: bold;
+	padding: 5px 5px 5px 5px;
+	position: absolute;
+	bottom:0px;
+}
+.content_qrcode_trung p{
+	font-size: 9px;
+	padding: 0px;
+	margin: 0px 0px 2px 0px;
+}

@@ -1,0 +1,31 @@
+table{
+	width: 650px;
+	border-collapse: collapse;
+	margin: auto;
+}
+table td{
+	padding: 5px;
+	border: 1px solid #000;
+	font-family: Arial;
+	font-size:11px;
+}
+
+table.products td {
+	border: 1px dashed #000;
+}
+input.address{
+	width: 420px;text-align:center;
+	border:0px; font-weight:bold;
+	font-family: arial;font-size:11px;
+}
+
+input.title_1{
+	font-size:11px;font-weight:bold;border:0px;
+	width: 140px;
+}
+textarea.title_2{
+	width:200px;
+	resize: none;overflow: hidden;
+	text-align: left;
+	font-family: arial;font-size:11px;border:0px;
+}

@@ -1,0 +1,46 @@
+table{
+	font-family: Arial;
+	width:650px;
+	border-collapse: collapse;
+	margin: 0px auto;
+	padding: 0px;
+}
+
+table td {
+	padding:5px;
+	border: 1px solid #000;
+}
+
+table td.title{
+	text-align: center;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+table td.title_1{
+	font-size: 11px;
+}
+
+input.title{
+	text-align: center;
+	font-weight: bold;
+	font-size: 14px;border:0px;
+}
+
+input.title_1{
+	font-size: 11px;
+	width:110px;
+	font-weight:bold;
+	border:0px;
+}
+
+textarea.title_1{
+	width: 200px;
+	padding:0px !important; margin: 0px;
+	overflow: hidden;
+	font-size: 11px;
+	font-family: tahoma;
+	border:0px;
+	resize: none;
+	vertical-align: top;
+}
