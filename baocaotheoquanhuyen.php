@@ -1,0 +1,230 @@
+<?php
+require_once('header.php');
+//check_permis($users->is_admin());
+$msg = isset($_GET['msg']) ? $_GET['msg'] : '';
+$donhang = new DonHang();$danhmuccongty = new DanhMuccongTy();$tonkho = new TonKho();
+$danhmuccongty_list = $danhmuccongty->get_all_list();
+$sanpham = new SanPham();$diachi = new DiaChi();
+$diachi_list = $diachi->get_list_condition(array('parentid' => '-1'));
+$id_diachi1=0;$id_diachi2=0;
+if(isset($_GET['submit'])){
+	$tungay = isset($_GET['tungay']) ? $_GET['tungay'] : '';
+	$denngay = isset($_GET['denngay']) ? $_GET['denngay'] : '';
+    $id_diachi1 = isset($_GET['id_diachi1']) ? $_GET['id_diachi1'] : '';
+    $id_diachi2 = isset($_GET['id_diachi1']) ? $_GET['id_diachi2'] : '';
+	$start_date = convert_date_yyyy_mm_dd_3($tungay, 0, 0, 0);
+	$end_date = convert_date_yyyy_mm_dd_3($denngay, 23, 59, 59);
+    //$list_congty = $danhmuccongty->get_list_condition(array('addresslevelone' => $id_diachi1, 'addressleveltwo' => $id_diachi2));
+    //$arr_congty = array();
+    //if($list_congty){
+    //    foreach($list_congty as $key => $value){
+    //        $arr_congty[] = new MongoId($value['_id']);
+    //    }
+   // }
+	if($start_date > $end_date){
+		$msg = 'Chọn ngày sai';
+	} else {
+        $query = array();
+        array_push($query, array('ngaymua' => array('$gte' => new MongoDate($start_date))));
+        array_push($query, array('ngaymua' => array('$lte' => new MongoDate($end_date))));
+        if($id_diachi1){
+            array_push($query, array('addresslevelone' => $id_diachi1));
+        }
+        if($id_diachi2){
+            array_push($query, array('addressleveltwo' => $id_diachi2));
+        }
+        if(!$users->is_admin()){
+            array_push($query, array('id_congty' => $user_default['id_congty']));
+        }
+        $q = array('$and' => $query);
+		$donhang_list = $donhang->get_baocao_condition($q);
+	}
+}
+?>
+<link href="assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
+<link href="assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
+<link href="assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" rel="stylesheet" />
+<link href="assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+<link href="assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+                <h4 class="panel-title"><i class="fa fa-list"></i> BÁO CÁO THEO QUẬN/HUYỆN</h4>
+            </div>
+            <div class="panel-body">
+            	<form class="form-horizontal" data-parsley-validate="true" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="GET">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <input type="text" name="tungay" id="tungay" value="<?php echo isset($tungay) ? $tungay: ''; ?>" class="form-control ngaythangnam" placeholder="Từ ngày" data-date-format="dd/mm/yyyy" data-inputmask="'alias': 'date'" data-parsley-required="true" />
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" name="denngay" id="denngay" value="<?php echo isset($denngay) ? $denngay: ''; ?>"" class="form-control ngaythangnam" placeholder="Đến ngày" data-date-format="dd/mm/yyyy" data-inputmask="'alias': 'date'" data-parsley-required="true" />
+                        </div>
+                        <div class="col-md-2">
+                        <select name="id_diachi1" id="id_diachi1" class="form-control select2">
+                            <option value="">Chọn TP</option>
+                            <?php
+                            if($diachi_list){
+                                foreach($diachi_list as $dc){
+                                    echo '<option value="'.$dc['id'].'"'.($dc['id'] == $id_diachi1 ? ' selected' : '').'>'.$dc['name'].'</option>';
+                                }
+                            }
+                            ?>
+                        </select>
+                        </div>
+                        <div class="col-md-2">
+                        <select name="id_diachi2" id="id_diachi2" class="form-control select2">
+                            <option value=""></option>
+                        </select>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <button type="submit" name="submit" value="OK" class="btn btn-primary"><i class="fa fa-search"></i> Báo cáo</button>
+                                <?php if(isset($_GET['submit'])): ?>
+                                <a href="baocaotheoquanhuyen_export.html?<?php echo $_SERVER['QUERY_STRING']; ?>" class="btn btn-success"><i class="fa fa-file-excel-o"></i> Xuất Excel</a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<?php if(isset($donhang_list) && $donhang_list): ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+                <h4 class="panel-title"><i class="fa fa-list"></i> KẾT QUẢ BÁO CÁO</h4>
+            </div>
+            <div class="panel-body">
+            <table class="table table-striped table-bordered table-hovered" style="font-size:11px;">
+            	<thead>
+            		<tr>
+            			<th>Số đơn hàng</th>
+            			<th>Ngày mua</th>
+            			<th width="130">Người mua</th>
+            			<th>Địa chỉ</th>
+            			<th>Số điện thoại</th>
+            			<th>Tên sản phẩm</th>
+            			<th>Số lượng</th>
+                        <th>Tồn kho</th>
+                        <th>Tồn kho tổng</th>
+            			<th>Đơn giá</th>
+            			<th>Thành tiền</th>
+            			<th width="100">Nơi giao hàng</th>
+            			<th width="150">Thanh toán</th>
+            		</tr>
+            	</thead>
+            	<tbody>
+            	<?php
+            	foreach($donhang_list as $dh){
+            		if(isset($dh['id_congty']) && $dh['id_congty']){
+            			$danhmuccongty->id = $dh['id_congty'];$ct = $danhmuccongty->get_one();
+            			$tencongty = $ct['ten'];
+                        $erpid = isset($ct['erp_id']) ? $ct['erp_id'] : '';
+            		} else {
+            			$tencongty = '';$erpid = '';
+            		}
+
+            		$tt = isset($dh['tinhtrang'][0]['t']) ? $dh['tinhtrang'][0]['t'] : 0;
+                    $t = isset($dh['tinhtrang'][0]['tt']) ? $dh['tinhtrang'][0]['tt'] : 0;
+                    $quan_huyen = $dh['addressLevelThreeName'] . ', '.$dh['addressLevelTwoName'].', '.$dh['addressLevelOneName'];
+            		if($dh['orderItems']){
+            			foreach($dh['orderItems'] as $order){
+                            if($erpid){
+                                $soluongtonkho = $tonkho->sum_soluong_by_id_sanpham_erp($order['itemId'], $erpid);
+                                $soluongtonkhotong = $tonkho->sum_soluong_by_id_sanpham($order['itemId']);
+                            } else {
+                                $soluongtonkho = '';
+                                $soluongtonkhotong = $tonkho->sum_soluong_by_id_sanpham($order['itemId']);
+                            }
+
+                            if($soluongtonkho) {
+                                $sl= $soluongtonkho[0]['sum_soluong'];
+                            } else { $sl = 0; }
+                            if($soluongtonkhotong){
+                                $slt =$soluongtonkhotong[0]['sum_soluong'];
+                            } else {$slt = 0;}
+            				$thanhtien = $order['quantity'] * $order['sellingprice'];
+                            //$tonkho = $sanpham->get_one_by_id($order['itemId']);
+            				echo '<tr>';
+		            		echo '<td>'.$dh['id'].'</td>';
+		            		echo '<td>'.date("d/m/Y", $dh['ngaymua']->sec).'</td>';
+		            		echo '<td>'.$dh['fullname'].'</td>';
+		            		//echo '<td>'.$dh['address'].'</td>';
+		            		echo '<td>'.$quan_huyen.'</td>';
+		            		echo '<td>'.$dh['phone'].'</td>';
+		            		echo '<td>'.$order['name'].'</td>';
+		            		echo '<td>'.$order['quantity'].'</td>';
+                            echo '<td>'.$sl.'</td>';
+                            echo '<td>'.$slt.'</td>';
+		            		echo '<td>'.format_number($order['sellingprice']).'</td>';
+		            		echo '<td>'.format_number($thanhtien).'</td>';
+		            		echo '<td>'.$tencongty.'</td>';
+		            		echo '<td>'.$arr_tinhtrang[$tt].'<br />Thanh toán: ' .$arr_thanhtoan[$t].'</td>';
+		            		echo '</tr>';
+            			}
+            		}
+            	}
+            	?>
+            	</tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+<div style="clear:both;"></div>
+<?php require_once('footer.php'); ?>
+<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script src="assets/plugins/select2/dist/js/select2.min.js"></script>
+<script src="assets/plugins/gritter/js/jquery.gritter.js"></script>
+<script src="assets/plugins/parsley/dist/parsley.js"></script>
+<script src="assets/plugins/DataTables/media/js/jquery.dataTables.js"></script>
+<script src="assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js"></script>
+<!--<script src="assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>-->
+<script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="assets/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="assets/js/table-manage-default.demo.min.js"></script>
+<script src="assets/js/apps.min.js"></script>
+<!-- ================== END PAGE LEVEL JS ================== -->
+<script>
+    $(document).ready(function() {
+    	$(".ngaythangnam").datepicker({todayHighlight:!0});
+    	$(".ngaythangnam").inputmask();
+
+        $.get("get.diachi.php?id=" + $("#id_diachi1").val() + "&id_diachi2=<?php echo $id_diachi2; ?>", function(data){
+            $("#id_diachi2").html(data);
+        });
+        $("#id_diachi1").change(function(){
+            var _this = $(this);
+            var _id = $(this).val();
+            $.get("get.diachi.php?id=" + _id, function(data){
+                $("#id_diachi2").html(data);
+            });
+        });
+        $(".select2").select2();
+    	<?php if(isset($msg) && $msg): ?>
+        $.gritter.add({
+            title:"Thông báo !",
+            text:"<?php echo $msg; ?>",
+            image:"assets/img/login.png",
+            sticky:false,
+            time:""
+        });
+        <?php endif; ?>
+        App.init();//TableManageDefault.init();
+    });
+</script>
