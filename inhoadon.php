@@ -72,7 +72,7 @@ $ct = $danhmuccongty->get_one();
 						Địa chỉ xuất hóa đơn:
 						<textarea class="title_1" rows="3">
 <?php if($dh['address']) echo $dh['address'] . "\n"; ?>
-<?php //echo $dh['addressLevelThreeName'] . ', ' . $dh['addressLevelTwoName'] .', ' . $dh['addressLevelOneName'] ?>
+<?php echo $dh['addressLevelThreeName'] . ', ' . $dh['addressLevelTwoName'] .', ' . $dh['addressLevelOneName'] ?>
 						</textarea>
 					</td>
 				</tr>
