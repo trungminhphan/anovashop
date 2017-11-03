@@ -88,7 +88,7 @@ if($users->is_admin()){
                         }
                 		echo '<td>'.$dh['name'].'</td>';
                 		echo '<td>'.$dh['phone'].'</td>';
-                		echo '<td>'.$diachi3.', '.$diachi2.', '.$diachi1.'</td>';
+                		echo '<td>'.$dh['address'] . ', '.$diachi3.', '.$diachi2.', '.$diachi1.'</td>';
                 		if($users->is_admin()){
                 			echo '<td class="text-center"><a href="#modal-noigiaohang" data-toggle="modal" class="noigiaohang" name="'.$dh['_id'].'"><i class="fa fa-user-plus '.$class.'"></td>';
                             echo '<td class="text-center"><a href="get.delete.html?id='.$dh['_id'].'&collect=donhang&url='.$_SERVER['REQUEST_URI'].'" onclick="return confirm(\'Chắc chắn xóa?\')"><i class="fa fa-trash"></i></a></td>';
