@@ -109,6 +109,7 @@ if(isset($_GET['submit'])){
             			<th>Tên sản phẩm</th>
             			<th>Số lượng</th>
                         <th>Tồn kho</th>
+                        <th>Tồn kho tổng</th>
             			<th>Đơn giá</th>
             			<th>Thành tiền</th>
             			<th width="100">Nơi giao hàng</th>
@@ -133,24 +134,31 @@ if(isset($_GET['submit'])){
             				$thanhtien = $order['quantity'] * $order['sellingprice'];
                             if($erpid){
                                 $soluongtonkho = $tonkho->sum_soluong_by_id_sanpham_erp($order['itemId'], $erpid);
+                                $soluongtonkhotong = $tonkho->sum_soluong_by_id_sanpham($order['itemId']);
                             } else {
                                 $soluongtonkho = $tonkho->sum_soluong_by_id_sanpham($order['itemId']);
+                                $soluongtonkhotong = $tonkho->sum_soluong_by_id_sanpham($order['itemId']);
                             }
                             if($soluongtonkho) {
                                 $sl= $soluongtonkho[0]['sum_soluong'];
                             } else {
                                 $sl = 0;
                             }
+                            if($soluongtonkhotong){
+                                $slt =$soluongtonkhotong[0]['sum_soluong'];
+                            } else {$slt = 0;}
+
             				echo '<tr>';
 		            		echo '<td>'.$dh['id'].'</td>';
 		            		echo '<td>'.date("d/m/Y", $dh['ngaymua']->sec).'</td>';
 		            		echo '<td>'.$dh['fullname'].'</td>';
 		            		//echo '<td>'.$dh['address'].'</td>';
-		            		echo '<td>'.$quan_huyen.'</td>';
+		            		echo '<td>'.$dh['address'] . ', '. $quan_huyen.'</td>';
 		            		echo '<td>'.$dh['phone'].'</td>';
 		            		echo '<td>'.$order['name'].'</td>';
 		            		echo '<td>'.$order['quantity'].'</td>';
                             echo '<td>'.$sl.'</td>';
+                            echo '<td>'.$slt.'</td>';
 		            		echo '<td>'.format_number($order['sellingprice']).'</td>';
 		            		echo '<td>'.format_number($thanhtien).'</td>';
 		            		echo '<td>'.$tencongty.'</td>';

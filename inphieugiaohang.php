@@ -53,7 +53,7 @@ $ct = $danhmuccongty->get_one();
 		</td>
 	</tr>
 	<tr>
-		<td align="center" rowspan="2">
+		<td align="left" rowspan="2">
 		<b>Người gửi:</b> <input type="text" value="<?php echo $ct['ten']; ?>" class="title_1">
 		<textarea rows="2" class="title_2">
 Đường: <?php if(isset($ct['tenduong'])) echo $ct['tenduong'] ."\n"; ?>
@@ -73,7 +73,7 @@ if($ct['addresslevelone']){
 			<u>Hotline nhà bán hàng:<br /><?php echo $ct['diachi'];?></u>
 		</b>
 		</td>
-		<td colspan="2" align="center">
+		<td colspan="2" align="left">
 		<b>
 			Người nhận:</br>
 			<?php echo $dh['name']; ?><br />
@@ -85,7 +85,7 @@ if($ct['addresslevelone']){
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2" align="center">Điện thoại người nhận: <?php echo $dh['phone']; ?> </td>
+		<td colspan="2" align="left">Điện thoại người nhận: <?php echo $dh['phone']; ?> </td>
 	</tr>
 	<tr>
 		<td colspan="3" align="center">

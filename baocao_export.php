@@ -60,14 +60,17 @@ if(isset($donhang_list) && $donhang_list){
 			foreach($dh['orderItems'] as $order){
 				if($erpid){
                     $soluongtonkho = $tonkho->sum_soluong_by_id_sanpham_erp($order['itemId'], $erpid);
+                    $soluongtonkhotong = $tonkho->sum_soluong_by_id_sanpham($order['itemId']);
                 } else {
                     $soluongtonkho = $tonkho->sum_soluong_by_id_sanpham($order['itemId']);
+                    $soluongtonkhotong = $tonkho->sum_soluong_by_id_sanpham($order['itemId']);
                 }
                 if($soluongtonkho) {
                     $sl= $soluongtonkho[0]['sum_soluong'];
-                } else {
-                    $sl = 0;
-                }
+                } else { $sl = 0; }
+                if($soluongtonkhotong){
+                    $slt =$soluongtonkhotong[0]['sum_soluong'];
+                } else {$slt = 0;}
 				$thanhtien = $order['quantity'] * $order['sellingprice'];
 				$objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$i, $dh['id']);
 				$objPHPExcel->setActiveSheetIndex()->setCellValue('B'.$i, $ngaymua);
@@ -77,10 +80,11 @@ if(isset($donhang_list) && $donhang_list){
 				$objPHPExcel->setActiveSheetIndex()->setCellValue('F'.$i, $order['name']);
 				$objPHPExcel->setActiveSheetIndex()->setCellValue('G'.$i, $order['quantity']);
 				$objPHPExcel->setActiveSheetIndex()->setCellValue('H'.$i, $sl);
-				$objPHPExcel->setActiveSheetIndex()->setCellValue('I'.$i, $order['sellingprice']);
-				$objPHPExcel->setActiveSheetIndex()->setCellValue('J'.$i, $thanhtien);
-				$objPHPExcel->setActiveSheetIndex()->setCellValue('K'.$i, $tencongty);
-				$objPHPExcel->setActiveSheetIndex()->setCellValue('L'.$i, $tinhtrang);
+				$objPHPExcel->setActiveSheetIndex()->setCellValue('I'.$i, $slt);
+				$objPHPExcel->setActiveSheetIndex()->setCellValue('J'.$i, $order['sellingprice']);
+				$objPHPExcel->setActiveSheetIndex()->setCellValue('K'.$i, $thanhtien);
+				$objPHPExcel->setActiveSheetIndex()->setCellValue('L'.$i, $tencongty);
+				$objPHPExcel->setActiveSheetIndex()->setCellValue('M'.$i, $tinhtrang);
 				$i++;
 			}
 		}
