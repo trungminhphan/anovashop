@@ -164,7 +164,7 @@ if(isset($_GET['submit'])){
 		            		echo '<td>'.date("d/m/Y", $dh['ngaymua']->sec).'</td>';
 		            		echo '<td>'.$dh['fullname'].'</td>';
 		            		//echo '<td>'.$dh['address'].'</td>';
-		            		echo '<td>'.$quan_huyen.'</td>';
+		            		echo '<td>'.$dh['address'] . ', '.$quan_huyen.'</td>';
 		            		echo '<td>'.$dh['phone'].'</td>';
 		            		echo '<td>'.$order['name'].'</td>';
 		            		echo '<td>'.$order['quantity'].'</td>';

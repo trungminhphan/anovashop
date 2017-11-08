@@ -96,7 +96,7 @@ $erpid = isset($_GET['erp_id']) ? $_GET['erp_id'] : '';
                 		echo '<td>'.$sp['name'].'</td>';
                 		echo '<td class="text-right">'.format_number($sp['price']).'</td>';
                         echo '<td class="text-right">'.$dvt['name'].'</td>';
-                		echo '<td class="text-right">'.format_number($sl).'</td>';
+                		echo '<td class="text-right"><a href="tonkhotheocuahang.html?id_sanpham='.$sp['id'].'" target="_blank">'.format_number($sl).'</a></td>';
                 		//echo '<td class="text-center"><a href="#modal-soluong" data-toggle="modal" name="'.$sp['_id'].'" class="soluong"><i class="fa fa-arrow-circle-up"></i></a></td>';
                 		echo '<td class="text-center"><a href="get.chitietsanpham.html?id='.$sp['_id'].'#modal-chitietsanpham" class="chitietsanpham" data-toggle="modal"><i class="fa fa-eye"></i></a></td>';
                         echo '<td class="text-center"><a href="get.delete.html?id='.$sp['_id'].'&collect=sanpham&url='.$_SERVER['REQUEST_URI'].'" onclick="return confirm(\'Chắc chắn xóa?\')"><i class="fa fa-trash"></i></a></td>';

@@ -73,7 +73,11 @@ if(isset($_POST['submit'])){
 			if(isset($dh['orderItems']) && $dh['orderItems']){
 				foreach($dh['orderItems'] as $item){
                     $tonkho->soluong = -$item['quantity'];
-                    $tonkho->inc_soluong_by_itemId($item['itemId'], $erp_id);
+                    if($erp_id){
+                        $tonkho->inc_soluong_by_itemId_erpId($item['itemId'], $erp_id);
+                    } else {
+                        $tonkho->inc_soluong_by_itemId($item['itemId']);
+                    }
 					//$sanpham->soluong = -$item['quantity'];
 					//$sanpham->inc_soluong_by_itemId($item['itemId']);
 				}

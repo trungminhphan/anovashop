@@ -172,7 +172,7 @@ $ct = $danhmuccongty->get_one();
 				<tr>
 					<td colspan="7" style="border-left: 0px;border-right:0px;" class="title_1">
 						Cam kết của Nhà bán hàng đối với giao dịch được thực hiện thông qua sàn giao dịch thương mại điện tử.<br />
-						Bằng văn bản này, nhà bán hàng cam kết phát hành hóa đơn bán hàng, theo thông tin xuất hóa đơn nêu trên khi giao dịch với khách hàng này được hoàn thành. Tên nhà bán hàng: ANOVA SHOP.
+						Bằng văn bản này, nhà bán hàng cam kết phát hành hóa đơn bán hàng, theo thông tin xuất hóa đơn nêu trên khi giao dịch với khách hàng này được hoàn thành. Tên nhà bán hàng: <?php echo $user_default['person']; ?>.
 
 					</td>
 				</tr>

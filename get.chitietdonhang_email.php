@@ -17,7 +17,7 @@ $ht = $config->get_one();
 //$user_default = $users->get_one_default();
 $danhmuccongty->id = $dh['id_congty'];
 $ct = $danhmuccongty->get_one();
-$person = isset($_GET['user']) ? $_GET['user'] : 'ANVOA';
+$person = isset($_GET['user']) ? $_GET['user'] : 'ANVOA SHOP';
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -249,7 +249,7 @@ if(isset($dh['tinhtrang']) && $dh['tinhtrang']):
 				<tr>
 					<td colspan="7" style="border-left: 0px;border-right:0px;" class="title_1">
 						Cam kết của Nhà bán hàng đối với giao dịch được thực hiện thông qua sàn giao dịch thương mại điện tử.<br />
-						Bằng văn bản này, nhà bán hàng cam kết phát hành hóa đơn bán hàng, theo thông tin xuất hóa đơn nêu trên khi giao dịch với khách hàng này được hoàn thành. Tên nhà bán hàng: ANOVA SHOP.
+						Bằng văn bản này, nhà bán hàng cam kết phát hành hóa đơn bán hàng, theo thông tin xuất hóa đơn nêu trên khi giao dịch với khách hàng này được hoàn thành. Tên nhà bán hàng: <?php echo $person; ?>.
 
 					</td>
 				</tr>
@@ -257,7 +257,7 @@ if(isset($dh['tinhtrang']) && $dh['tinhtrang']):
 					<td colspan="7" align="center" style="border-left: 0px;border-right:0px;border-bottom: 0px;" class="title_1">
 						<?php echo '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode($dh['id'], $generator::TYPE_CODE_128)) . '">'; ?> <br />
 						Mã đơn hàng: <?php echo $dh['id']; ?><br /> <br />
-						<b>CÁM ƠN ĐÃ MUA SẮM TẠI <?php echo $user_default['person']; ?> </b>
+						<b>CÁM ƠN ĐÃ MUA SẮM TẠI <?php echo $person; ?> </b>
 					</td>
 				</tr>
 			</table>

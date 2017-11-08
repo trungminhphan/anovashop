@@ -65,12 +65,18 @@ class TonKho {
         return $this->_collection->update($condition, $query);
     }
 
-    public function inc_soluong_by_itemId($itemId, $erp_id){
+    public function inc_soluong_by_itemId_erpId($itemId, $erp_id){
         $query = array('$inc' => array('soluong' => $this->soluong));
         $condition = array('id_sanpham' => $itemId, 'erp_id' => $erp_id);
         return $this->_collection->update($condition, $query);
     }
 
+    public function inc_soluong_by_itemId($itemId){
+        $result = $this->get_one_by_condition(array('id_sanpham' => $itemId));
+        $query = array('$inc' => array('soluong' => $this->soluong));
+        $condition = array('id_sanpham' => $result['id_sanpham']);
+        return $this->_collection->update($condition, $query);
+    }
     public function sum_soluong_by_id_sanpham($id_sanpham){
         $condition = array(
             '$match' => array('id_sanpham' => $id_sanpham)

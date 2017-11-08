@@ -59,7 +59,7 @@ $dinhkem = isset($dh['tinhtrang'][0]['dinhkem'][0]['aliasname']) ? $dh['tinhtran
                         <th class="text-center">STT</th>
                         <th class="text-center">Sản phẩm</th>
                         <th class="text-center">số lượng</th>
-                        <th class="text-center">Tồn kho</th>
+<!--                        <th class="text-center">Tồn kho</th>-->
                         <th class="text-center">Đơn giá</th>
                         <th class="text-center">Thành tiền</th>
                     </tr>
@@ -74,7 +74,7 @@ $dinhkem = isset($dh['tinhtrang'][0]['dinhkem'][0]['aliasname']) ? $dh['tinhtran
                     	echo '<td class="text-right">'.$i.'</td>';
                     	echo '<td>'.$item['name'].'</td>';
                     	echo '<td class="text-right">'.$item['quantity'].'</td>';
-                        echo '<td class="text-right">'.$tonkho['soluong'].'</td>';
+                        //echo '<td class="text-right">'.$tonkho['soluong'].'</td>';
                     	echo '<td class="text-right">'.format_number($item['price']).'</td>';
                     	echo '<td class="text-right">'.format_number($thanhtien).'</td>';
                     	echo '</tr>';$i++;
@@ -128,7 +128,7 @@ $dinhkem = isset($dh['tinhtrang'][0]['dinhkem'][0]['aliasname']) ? $dh['tinhtran
             </div>
         </div>
     </div>
-</div> 
+</div>
 <?php
 if(isset($dh['id_congty']) && $dh['id_congty']){
     $danhmuccongty->id = $dh['id_congty']; $ct = $danhmuccongty->get_one();
