@@ -47,7 +47,7 @@ if(isset($_POST['submit'])){
 	$mail->SMTPSecure = 'ssl';                          // SMTP password
 	$mail->Port = 465;                                   // TCP port to connect to
 	$mail->CharSet = 'UTF-8';
-	$mail->setFrom('legomarketingteam@gmail.com', 'ANOVASHOP');
+	$mail->setFrom('legomarketingteam@gmail.com', $user_default ['person']);
 	$mail->addAddress('beetrangtran@gmail.com', 'THÔNG TIN ĐƠN HÀNG');
 	$mail->addAddress('khang.nguyen@anovacorp.vn', 'THÔNG TIN ĐƠN HÀNG');
     if(isset($user_default['email']) && $user_default['email']){
@@ -83,7 +83,7 @@ if(isset($_POST['submit'])){
 		if($donhang->push_tinhtrang()){
 			include('inc/Requests/library/Requests.php');
 			Requests::register_autoloader();
-			$mail->Subject = 'ANOVASHOP - THÔNG TIN ĐƠN HÀNG';
+			$mail->Subject = $user_default ['person'].' - THÔNG TIN ĐƠN HÀNG';
 		    $response = Requests::get('http://103.27.236.20/anovashop/get.chitietdonhang_email.html?id='.$id_donhang.'&user='.$user_default ['person']);
 		    $mail->Body    = $response->body;
 	    	$mail->AltBody = $response->body;

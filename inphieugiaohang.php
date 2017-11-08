@@ -79,7 +79,7 @@ if($ct['addresslevelone']){
 			<?php echo $dh['name']; ?><br />
 			<textarea rows="2" class="title_2" style="width:400px;font-weight:bold;">
 <?php if($dh['address']){ echo $dh['address'] . "\n"; } ?>
-<?php //echo  $dh['addressLevelThreeName'] . ', ' . $dh['addressLevelTwoName'] .', ' . $dh['addressLevelOneName']; ?>
+<?php echo  $dh['addressLevelThreeName'] . ', ' . $dh['addressLevelTwoName'] .', ' . $dh['addressLevelOneName']; ?>
 			</textarea>
 		</b>
 		</td>
