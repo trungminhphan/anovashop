@@ -38,7 +38,7 @@ if($act == 'tinhtrang'){
 	$mail->setFrom('legomarketingteam@gmail.com', 'ANOVASHOP');
 	$mail->addAddress('beetrangtran@gmail.com', 'THÔNG TIN ĐƠN HÀNG');
 	$mail->addAddress('khang.nguyen@anovacorp.vn', 'THÔNG TIN ĐƠN HÀNG');
-	//$mail->addAddress('trungminhphan@gmail.com', 'THÔNG TIN ĐƠN HÀNG');
+	#$mail->addAddress('trungminhphan@gmail.com', 'THÔNG TIN ĐƠN HÀNG');
 	if(isset($user_default['email']) && $user_default['email']){
         $mail->addAddress($user_default['email'], 'THÔNG TIN ĐƠN HÀNG');
     }
@@ -95,6 +95,4 @@ if($act == 'tinhtrang'){
 //edit
 //insert
 //tinhtrang
-
-
 ?>
