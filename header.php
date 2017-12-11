@@ -102,7 +102,7 @@ $id_congty = $users->get_id_congty();
                     </a>
                 </li>
                 <?php if($users->is_admin()) : ?>
-            	<li class="has-sub">
+            	   <li class="has-sub">
 	                <a href="#">
 	                	<b class="caret pull-right"></b>
 	                    <i class="fa fa-refresh"></i>
@@ -146,21 +146,27 @@ $id_congty = $users->get_id_congty();
                         <li class="divider"></li>
                     </ul>
                 </li>
-                <li>
+                <li class="has-sub">
                     <a href="noigiaohang.html">
                         <i class="fa fa-map-marker"></i>
                         <span>NƠI GIAO HÀNG</span>
                     </a>
                 </li>
                 <?php endif; ?>
-                <li>
-                    <a href="donhang.html">
-                        <i class="ion-clipboard"></i>
+                <li class="has-sub">
+                    <a href="baocao.html">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <b class="caret pull-right"></b>
                         <span>ĐƠN HÀNG</span>
                     </a>
+                    <ul class="sub-menu">
+                        <li class="divider"></li>
+                        <li><a href="donhang.html">Danh sách</a></li>
+                        <li class="divider"></li>
+                        <li><a href="timkiemdonhang.html">Tìm đơn hàng</a></li>
+                    </ul>
                 </li>
-
-            	<li class="has-sub">
+                <li class="has-sub">
                     <a href="baocao.html">
                         <i class="fa fa-bar-chart-o"></i>
                         <b class="caret pull-right"></b>

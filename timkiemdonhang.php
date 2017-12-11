@@ -1,34 +1,40 @@
-<?php
-require_once('header.php');
-//check_permis($users->is_admin());
+<?php require_once('header.php');
 $msg = isset($_GET['msg']) ? $_GET['msg'] : '';
 $donhang = new DonHang();$danhmuccongty = new DanhMuccongTy();$tonkho = new TonKho();
 $danhmuccongty_list = $danhmuccongty->get_all_list();
 $sanpham = new SanPham();
 $id_congty='';
 if(isset($_GET['submit'])){
-	$tungay = isset($_GET['tungay']) ? $_GET['tungay'] : '';
-	$denngay = isset($_GET['denngay']) ? $_GET['denngay'] : '';
-    $id_congty = isset($_GET['id_congty']) ? $_GET['id_congty'] : '';
-	$start_date = convert_date_yyyy_mm_dd_3($tungay, 0, 0, 0);
-	$end_date = convert_date_yyyy_mm_dd_3($denngay, 23, 59, 59);
+	//$tungay = isset($_GET['tungay']) ? $_GET['tungay'] : '';
+	//$denngay = isset($_GET['denngay']) ? $_GET['denngay'] : '';
+  $keysearch = isset($_GET['keysearch']) ? trim($_GET['keysearch']) : '';
+	//$start_date = convert_date_yyyy_mm_dd_3($tungay, 0, 0, 0);
+	//$end_date = convert_date_yyyy_mm_dd_3($denngay, 23, 59, 59);
 
-	if($start_date > $end_date){
-		$msg = 'Chọn ngày sai';
-	} else {
+	//if($start_date > $end_date){
+//		$msg = 'Chọn ngày sai';
+//	} else {
         $query = array();
-        array_push($query, array('ngaymua' => array('$gte' => new MongoDate($start_date))));
-        array_push($query, array('ngaymua' => array('$lte' => new MongoDate($end_date))));
-
-        if($id_congty && $users->is_admin()){
-            array_push($query, array('id_congty' => new MongoId($id_congty)));
-        } else if($id_congty){
-            array_push($query, array('id_congty' => new MongoId($user_default['id_congty'])));
+        //array_push($query, array('ngaymua' => array('$gte' => new MongoDate($start_date))));
+        //array_push($query, array('ngaymua' => array('$lte' => new MongoDate($end_date))));
+        if($keysearch){
+          array_push($query, array('id' => new MongoRegex('/'.$keysearch.'/i')));
+          array_push($query, array('name' => new MongoRegex('/'.$keysearch.'/i')));
+          array_push($query, array('phone' => new MongoRegex('/'.$keysearch.'/i')));
+          array_push($query, array('fullname' => new MongoRegex('/'.$keysearch.'/i')));
+          array_push($query, array('addressLevelOneName' => new MongoRegex('/'.$keysearch.'/i')));
+          array_push($query, array('addressLevelTwoName' => new MongoRegex('/'.$keysearch.'/i')));
+          array_push($query, array('addressLevelThreeName' => new MongoRegex('/'.$keysearch.'/i')));
+          array_push($query, array('address' => new MongoRegex('/'.$keysearch.'/i')));
+          array_push($query, array('orderItems.title' => new MongoRegex('/'.$keysearch.'/i')));
+          array_push($query, array('orderItems.name' => new MongoRegex('/'.$keysearch.'/i')));
+          $q = array('$or' => $query);
+  		    $donhang_list = $donhang->get_baocao_condition($q);
+        } else {
+          $msg = 'Vui lòng chọn từ khóa tìm kiếm';
         }
 
-        $q = array('$and' => $query);
-		$donhang_list = $donhang->get_baocao_condition($q);
-	}
+	//}
 }
 ?>
 <link href="assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
@@ -37,8 +43,7 @@ if(isset($_GET['submit'])){
 <link href="assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" rel="stylesheet" />
 <link href="assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
 <link href="assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
-<!--<link href="assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
-<link href="assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css" rel="stylesheet" />-->
+<h1 class="page-header">ANOVA SHOP - TÌM KIẾM ĐƠN HÀNG</h1>
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-primary">
@@ -47,37 +52,25 @@ if(isset($_GET['submit'])){
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <h4 class="panel-title"><i class="fa fa-list"></i> BÁO CÁO THEO NƠI GIAO HÀNG</h4>
+                <h4 class="panel-title"><i class="fa fa-list"></i> TÌM ĐƠN HÀNG THEO</h4>
             </div>
             <div class="panel-body">
             	<form class="form-horizontal" data-parsley-validate="true" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="GET">
                     <div class="form-group">
-                        <div class="col-md-2">
+                        <!--<div class="col-md-2">
                             <input type="text" name="tungay" id="tungay" value="<?php echo isset($tungay) ? $tungay: ''; ?>" class="form-control ngaythangnam" placeholder="Từ ngày" data-date-format="dd/mm/yyyy" data-inputmask="'alias': 'date'" data-parsley-required="true" />
                         </div>
                         <div class="col-md-2">
                             <input type="text" name="denngay" id="denngay" value="<?php echo isset($denngay) ? $denngay: ''; ?>" class="form-control ngaythangnam" placeholder="Đến ngày" data-date-format="dd/mm/yyyy" data-inputmask="'alias': 'date'" data-parsley-required="true" />
-                        </div>
+                        </div>-->
                         <?php if($users->is_admin()): ?>
                         <div class="col-md-5">
-                        <select name="id_congty" id="id_congty" class="form-control select2">
-                            <option value="">Chọn cửa hàng</option>
-                            <?php
-                            if($danhmuccongty_list){
-                                foreach($danhmuccongty_list as $ct){
-                                    echo '<option value="'.$ct['_id'].'"'.($ct['_id'] == $id_congty ? ' selected' : '').'>'.$ct['ten'].'</option>';
-                                }
-                            }
-                            ?>
-                        </select>
+                          <input type="text" name="keysearch" value="<?php echo isset($keysearch) ? $keysearch : ''; ?>" class="form-control" placeholder="Từ khóa tìm kiếm" />
                         </div>
                         <?php endif; ?>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <button type="submit" name="submit" value="OK" class="btn btn-primary"><i class="fa fa-search"></i> Báo cáo</button>
-                                <?php if(isset($_GET['submit'])): ?>
-                                <a href="baocao_export.html?<?php echo $_SERVER['QUERY_STRING']; ?>" class="btn btn-success"><i class="fa fa-file-excel-o"></i> Xuất Excel</a>
-                                <?php endif; ?>
+                                <button type="submit" name="submit" value="OK" class="btn btn-primary"><i class="fa fa-search"></i> Tìm kiếm</button>
                             </div>
                         </div>
                     </div>
@@ -177,6 +170,7 @@ if(isset($_GET['submit'])){
 <?php endif; ?>
 <div style="clear:both;"></div>
 <?php require_once('footer.php'); ?>
+<!-- ================== BEGIN PAGE LEVEL JS ================== -->
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
 <script src="assets/plugins/select2/dist/js/select2.min.js"></script>
 <script src="assets/plugins/gritter/js/jquery.gritter.js"></script>
